@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PorductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService{
 
 	private final ProductRepository productRepository;
 	
