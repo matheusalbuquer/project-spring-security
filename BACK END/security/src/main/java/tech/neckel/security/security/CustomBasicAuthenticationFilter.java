@@ -3,6 +3,10 @@ package tech.neckel.security.security;
 import java.io.IOException;
 import java.util.Base64;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -62,12 +66,13 @@ public class CustomBasicAuthenticationFilter extends OncePerRequestFilter {
 	
 	private void setAuthetication(User user) {
 
-		Authentication authentication = creteAuthentitiionToken(user);
+		Authentication authentication = createAuthenticationToken(user);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 
-	private Authentication creteAuthentitiionToken(User user) {
-		
-		return null;
+	private Authentication createAuthenticationToken(User user) {
+		UserPrincipal userPrincipal = UserPrincipal.create(user);
+		return new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
 	}
 
 	private boolean checkPassword(String userPassword, String loginPassoword) {
